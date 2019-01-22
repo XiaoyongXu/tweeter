@@ -1,0 +1,25 @@
+.new-tweet{
+  margin:2em 2em;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  border: solid black 1px;
+  
+}
+.new-tweet h2 {
+  margin: 0;
+}
+
+.new-tweet hr {
+  margin-top: 0;
+}
+
+textarea{
+  width: 100%;
+}
+
+span{
+  float:right;
+}
