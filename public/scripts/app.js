@@ -20,28 +20,45 @@ $(()=>{
   }
 
   function renderTweets(tweets) {
+    $('#tweets-container').empty();
     for(tweet of tweets){
-      $('#tweets-container').append(createTweetElement(tweet));
+      $('#tweets-container').prepend(createTweetElement(tweet));
     }
   }
 
   $('#new').submit(function(){
     event.preventDefault();
     const serialized = $(this).serialize();
-    console.log(serialized);
+    const lengthOfText = $('textarea').val().length;
+    if (lengthOfText === 0 ){
+      alert("nothing to tweet")
+      return false;
+    }else if (lengthOfText > 140){
+      alert("to many words to tweet");
+      return false;
+    }
+
     $.ajax({
       method: "POST",
       url:"/tweets",
       data: serialized,
-
     }).done(function(){
-      console.log(this.data);
+
+      loadTweets();
     })
+    $('#new').get(0).reset();
+    $("#counter").text("nothing entered").css('color','red');
   });
   
   function createTweetElement(User){
     let postTime = moment(User.created_at).fromNow();
     let logo = User.user.avatars.small;
+    function escape(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+    const safeHTML = `<p>${escape(User.content.text)}</p>`;
     let $tweetElem = $("<article>").addClass("tweet").html(
     
       `
@@ -52,7 +69,7 @@ $(()=>{
       </header>
       <hr>
       <h4>
-        ${User.content.text}
+        ${safeHTML}
       </h4>
       <hr>
       <h5>

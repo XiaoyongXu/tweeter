@@ -1,3 +1,7 @@
+.container span{
+  color: red;
+}
+
 #tweets-container{
   background-color: white;
 }

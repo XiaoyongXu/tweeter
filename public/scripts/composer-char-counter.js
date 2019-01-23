@@ -4,19 +4,25 @@ $(()=>{
 
   $("textarea").keyup(function(e){
     let txtChar = $(this).val().length;
-   if(txtChar <= maxChar){
-    let counter = maxChar - txtChar;
-    if (counter < 0){
-      $("#counter").text(counter).css('color','red');
+    if (txtChar === 0 || txtChar === null){
+      $("#counter").text("nothing entered").css('color','red');
     }else{
-      $("#counter").text(counter);
+      if(txtChar <= maxChar){
+        let counter = maxChar - txtChar;
+        $("#counter").text(counter).css('color','black');
+      }else{
+        $("#counter").text("too many words").css('color','red');
+      }
     }
-   }else{
-     alert("too many words");
-   }
+    
   });
   
   
+
+
+
+
+
   // $("textarea").keydown(function(e){
   //  let keycode = e.keyCode;
   //  let txtChar = $(this).val().length;
