@@ -1,0 +1,52 @@
+#tweets-container{
+  background-color: white;
+}
+
+.tweet{
+  transition: 0.5s;
+  opacity:0.6;
+  margin:0 2em;
+  border-radius: 5px;
+  border: solid black 1px;
+}
+
+.tweet:hover{
+  transition: 0.5s;
+  opacity: 1;
+}
+
+
+.tweet header{
+  background-color:lightgray;
+  height: 50px;
+  width: 100%;
+}
+
+.tweet img{
+  float:left;
+
+}
+.tweet name{
+  font-size: 1.5rem;
+  margin: 0;
+  border-top:0.5rem;
+  padding-left:0.5rem;
+  float:top;
+ 
+}
+.tweet handel{
+  margin: 0;
+  padding-top:1rem;
+  float:right;
+  
+}
+.tweet hr{
+  margin: 0;
+}
+.tweet h4{
+  margin: 2em 2em;
+}
+.tweet h5{
+  margin: 0em 2em;
+}
+
