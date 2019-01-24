@@ -1,15 +1,14 @@
-.container span{
-  color: red;
-}
+
 
 #tweets-container{
   background-color: white;
+  margin-top:10px;
 }
 
 .tweet{
   transition: 0.5s;
   opacity:0.6;
-  margin:0 2em;
+  margin:1px 2em;
   border-radius: 5px;
   border: solid black 1px;
 }
@@ -53,4 +52,3 @@
 .tweet h5{
   margin: 0em 2em;
 }
-

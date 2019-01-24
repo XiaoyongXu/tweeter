@@ -19,6 +19,12 @@ $(()=>{
     });
   }
 
+  $("#composeButton").click(function(){
+    $('error').empty();
+    $(".new-tweet").slideToggle();
+    $("textarea").focus();
+  });
+
   function renderTweets(tweets) {
     $('#tweets-container').empty();
     for(tweet of tweets){
@@ -31,13 +37,15 @@ $(()=>{
     const serialized = $(this).serialize();
     const lengthOfText = $('textarea').val().length;
     if (lengthOfText === 0 ){
-      alert("nothing to tweet")
+      $('error').empty();
+      $('error').append("There is nothing entered")
       return false;
     }else if (lengthOfText > 140){
-      alert("to many words to tweet");
+      $('error').empty();
+      $('error').append("There is too many words entered")
       return false;
     }
-
+    $('error').empty();
     $.ajax({
       method: "POST",
       url:"/tweets",
@@ -45,9 +53,9 @@ $(()=>{
     }).done(function(){
 
       loadTweets();
-    })
+    });
     $('#new').get(0).reset();
-    $("#counter").text("nothing entered").css('color','red');
+    $("#counter").text("140");
   });
   
   function createTweetElement(User){
