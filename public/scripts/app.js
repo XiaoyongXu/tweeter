@@ -24,6 +24,23 @@ $(()=>{
     $(".new-tweet").slideToggle();
     $("textarea").focus();
   });
+  // const icons = $(".tweet").find(".icon");
+  // $('.tweet').mouseover(function(){
+  //   console.log("show");
+  //   $('.icon', this).show();
+  // });
+  // $('.tweet').mouseleave(function(){
+  //   console.log("hide");
+  //   $('.icon', this).hide();
+  // });
+  $("#tweets-container").hover(function() {
+    $(this).find(".icon").show();
+    console.log("test");
+  },function() {
+    $(this).find(".icon").hide();})
+  
+
+  
 
   function renderTweets(tweets) {
     $('#tweets-container').empty();
@@ -54,6 +71,7 @@ $(()=>{
 
       loadTweets();
     });
+
     $('#new').get(0).reset();
     $("#counter").text("140");
   });
@@ -80,11 +98,19 @@ $(()=>{
         ${safeHTML}
       </h4>
       <hr>
-      <h5>
-        ${postTime}
-      </h5>
+      <footer>
+        <h5>
+          ${postTime}
+          <span class = "icon">
+            <i class="fas fa-flag"></i>
+            <i class="fas fa-retweet"></i>
+            <i class="fas fa-heart"></i>
+          </span>
+        </h5>
+      </footer>
       `
     )
+    
     return $tweetElem;
   }
 

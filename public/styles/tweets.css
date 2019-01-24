@@ -49,10 +49,18 @@
 .tweet h4{
   margin: 2em 2em;
 }
+
+.tweet footer{
+  padding:1em 0;
+}
 .tweet h5{
-  margin: 0em 2em;
+  margin: 0 1em;
 }
 
 .tweet p {
   word-wrap: break-word;
+}
+
+.tweet icon{
+  float:right;
 }
