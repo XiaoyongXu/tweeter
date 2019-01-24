@@ -52,3 +52,7 @@
 .tweet h5{
   margin: 0em 2em;
 }
+
+.tweet p {
+  word-wrap: break-word;
+}

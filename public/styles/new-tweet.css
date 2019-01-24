@@ -21,15 +21,15 @@ textarea{
 }
 
 span{
-  margin:3px 0;
   float:right;
+
 }
 
 input{
   margin:3px 0;
 }
 
-error{
-  padding:5px 20px;
+#err{
   color:red;
+  padding: 5px 20px;
 }

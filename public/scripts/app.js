@@ -20,7 +20,7 @@ $(()=>{
   }
 
   $("#composeButton").click(function(){
-    $('error').empty();
+    $('#err').empty();
     $(".new-tweet").slideToggle();
     $("textarea").focus();
   });
@@ -37,15 +37,15 @@ $(()=>{
     const serialized = $(this).serialize();
     const lengthOfText = $('textarea').val().length;
     if (lengthOfText === 0 ){
-      $('error').empty();
-      $('error').append("There is nothing entered")
+      $('#err').empty();
+      $('#err').text("There is nothing entered")
       return false;
     }else if (lengthOfText > 140){
-      $('error').empty();
-      $('error').append("There is too many words entered")
+      $('#err').empty();
+      $('#err').text("There is too many words entered")
       return false;
     }
-    $('error').empty();
+    $('#err').empty();
     $.ajax({
       method: "POST",
       url:"/tweets",
