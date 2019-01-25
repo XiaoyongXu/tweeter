@@ -27,12 +27,15 @@
 }
 
 #nav-bar button {
+  position: absolute;
+  top:0;
+  right:0;
+  float: right;
   font-size: 1.5rem;
   padding: 15px 10px;
   transform: 0.5s;
   opacity: 0.8;
-  margin: 10px 0;
-  float: right;
+  margin: 0.5rem 2rem;
   border-radius: 5px;
   border: solid black 1px;
   background-color: white;
