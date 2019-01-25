@@ -13,10 +13,21 @@
   border: solid black 1px;
 }
 
+.icon{
+  display: none;
+  float:right;
+}
+
 .tweet:hover{
   transition: 0.5s;
   opacity: 1;
 }
+
+.tweet:hover .icon{
+  display: inline-block;
+}
+
+
 
 
 .tweet header{
@@ -61,6 +72,4 @@
   word-wrap: break-word;
 }
 
-.tweet icon{
-  float:right;
-}
+

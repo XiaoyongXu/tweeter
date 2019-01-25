@@ -24,23 +24,7 @@ $(()=>{
     $(".new-tweet").slideToggle();
     $("textarea").focus();
   });
-  // const icons = $(".tweet").find(".icon");
-  // $('.tweet').mouseover(function(){
-  //   console.log("show");
-  //   $('.icon', this).show();
-  // });
-  // $('.tweet').mouseleave(function(){
-  //   console.log("hide");
-  //   $('.icon', this).hide();
-  // });
-  $("#tweets-container").hover(function() {
-    $(this).find(".icon").show();
-    console.log("test");
-  },function() {
-    $(this).find(".icon").hide();})
-  
 
-  
 
   function renderTweets(tweets) {
     $('#tweets-container').empty();
@@ -99,14 +83,16 @@ $(()=>{
       </h4>
       <hr>
       <footer>
-        <h5>
-          ${postTime}
-          <span class = "icon">
-            <i class="fas fa-flag"></i>
-            <i class="fas fa-retweet"></i>
-            <i class="fas fa-heart"></i>
-          </span>
-        </h5>
+        <div>
+          <h5>
+            ${postTime}
+            <span class = "icon">
+              <i class="fas fa-flag"></i>
+              <i class="fas fa-retweet"></i>
+              <i class="fas fa-heart"></i>
+            </span>
+          </h5>
+        </div>
       </footer>
       `
     )
