@@ -1,95 +1,6 @@
-/*
- * Client-side JS logic goes here
- * jQuery is already loaded
- * Reminder: Use (and do all your DOM work in) jQuery's document ready function
- */
-
-// Fake usersData taken from tweets.json
-
-
-
-
 $(()=>{
-
-  function loadTweets(){
-    $.ajax({
-      method: "get",
-      url:"/tweets",
-    }).done(function(res){
-      renderTweets(res);
-    });
-  }
-
-  $("#composeButton").click(function(){
-    $('#err').empty();
-    $(".new-tweet").slideToggle();
-    $("textarea").focus();
-  });
-
-  $("#tweets-container").on('click','.like',function(){
-    //When you dynamically create elements in javascript,
-    //we cannot register the events of the buttons dynamically. 
-    //we need to get the parents control to register event on the buttons within them.
-    const curTweetID = $(this).parent().attr('data-id');
-    const whetherLikedItOrNot = $(this).attr('data-id');
-    var data = {
-      tweetId : curTweetID,
-      isLike: whetherLikedItOrNot
-    };
-    
-    $.ajax({
-      method: "POST",
-      url:"/tweets/like",
-      data: data,
-      success: function(result){
-        loadTweets();
-      },
-      error: function(error){
-        console.log("there was an error liking it");
-      }
-    })
-    
-  });
-
-
-
-  function renderTweets(tweets) {
-    $('#tweets-container').empty();
-    for(tweet of tweets){
-      $('#tweets-container').prepend(createTweetElement(tweet));
-    }
-  }
-
-  $('#new').submit(function(){
-    event.preventDefault();
-    const serialized = $(this).serialize();
-    const lengthOfText = $('textarea').val().length;
-    if (lengthOfText === 0 ){
-      $('#err').empty();
-      $('#err').text("There is nothing entered")
-      return false;
-    }else if (lengthOfText > 140){
-      $('#err').empty();
-      $('#err').text("There is too many words entered")
-      return false;
-    }
-
-    $('#err').empty();
-    $.ajax({
-      method: "POST",
-      url:"/tweets",
-      data: serialized,
-    }).done(function(){
-
-      loadTweets();
-    });
-
-    $('#new').get(0).reset();
-    $("#counter").text("140");
-  });
   
-  function createTweetElement(tweet){
-    console.log("test ",tweet)
+  function createTweetElement(tweet){//creating single tweet 
     let postTime = moment(tweet.created_at).fromNow();
     let logo = tweet.user.avatars.small;
     function escape(str) {
@@ -99,7 +10,9 @@ $(()=>{
     }
     const safeHTML = `<p>${escape(tweet.content.text)}</p>`;
     let $tweetElem ="";
-    if(tweet.IsLike===0 || tweet.IsLike===undefined){
+
+    if(tweet.IsLike === 0 || tweet.IsLike === undefined){
+    //add an unliked tweet when it has not been liked.
       $tweetElem = $("<article>").addClass("tweet").html(
         `
         <header class="header">
@@ -126,9 +39,9 @@ $(()=>{
         </footer>
         `
       )
-    
     }
     else{
+     //add an liked tweet when it has been liked.
       $tweetElem = $("<article>").addClass("tweet").html(
     
         `
@@ -161,6 +74,53 @@ $(()=>{
     return $tweetElem;
   }
 
+  function renderTweets(tweets) {
+    $('#tweets-container').empty();
+    for(tweet of tweets){
+      $('#tweets-container').prepend(createTweetElement(tweet));
+    }
+  }
+
+  function loadTweets(){
+    $.ajax({
+      method: "get",
+      url:"/tweets",
+    }).done(function(res){
+      renderTweets(res);
+    });
+  }
+  
+  //deal with the compose button
+  $("#composeButton").click(function(){
+    $('#err').empty();
+    $(".new-tweet").slideToggle();
+    $("textarea").focus();
+  });
+
+  //deal with the like button
+  $("#tweets-container").on('click','.like',function(){
+    const curTweetID = $(this).parent().attr('data-id');
+    const whetherLikedItOrNot = $(this).attr('data-id');
+    var data = {
+      tweetId : curTweetID,
+      isLike: whetherLikedItOrNot
+    };
+
+    $.ajax({
+      method: "POST",
+      url:"/tweets/like",
+      data: data,
+      success: function(result){
+        loadTweets();
+      },
+      error: function(error){
+        console.log("there was an error liking it");
+      }
+    })
+    
+  });
+
+  //call the main function
   loadTweets();
 
 });

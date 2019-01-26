@@ -18,6 +18,7 @@ module.exports = function makeDataHelpers(db) {
       });  
     },
 
+    //user can like a tweet or unlike
     likeTweet: function(tweetID,isLike,callback){
       let flag;
       if(isLike==="1"){
@@ -33,6 +34,7 @@ module.exports = function makeDataHelpers(db) {
         }
       });
     },
+    
     // Get all tweets in `db`, sorted by newest first
     getTweets: function(callback) {
       const sortNewestFirst = (a, b) => a.created_at - b.created_at;
