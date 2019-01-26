@@ -10,6 +10,7 @@
 
 
 $(()=>{
+
   function loadTweets(){
     $.ajax({
       method: "get",
@@ -24,6 +25,32 @@ $(()=>{
     $(".new-tweet").slideToggle();
     $("textarea").focus();
   });
+
+  $("#tweets-container").on('click','.like',function(){
+    //When you dynamically create elements in javascript,
+    //we cannot register the events of the buttons dynamically. 
+    //we need to get the parents control to register event on the buttons within them.
+    const curTweetID = $(this).parent().attr('data-id');
+    const whetherLikedItOrNot = $(this).attr('data-id');
+    var data = {
+      tweetId : curTweetID,
+      isLike: whetherLikedItOrNot
+    };
+    
+    $.ajax({
+      method: "POST",
+      url:"/tweets/like",
+      data: data,
+      success: function(result){
+        loadTweets();
+      },
+      error: function(error){
+        console.log("there was an error liking it");
+      }
+    })
+    
+  });
+
 
 
   function renderTweets(tweets) {
@@ -46,6 +73,7 @@ $(()=>{
       $('#err').text("There is too many words entered")
       return false;
     }
+
     $('#err').empty();
     $.ajax({
       method: "POST",
@@ -60,42 +88,75 @@ $(()=>{
     $("#counter").text("140");
   });
   
-  function createTweetElement(User){
-    let postTime = moment(User.created_at).fromNow();
-    let logo = User.user.avatars.small;
+  function createTweetElement(tweet){
+    console.log("test ",tweet)
+    let postTime = moment(tweet.created_at).fromNow();
+    let logo = tweet.user.avatars.small;
     function escape(str) {
       var div = document.createElement('div');
       div.appendChild(document.createTextNode(str));
       return div.innerHTML;
     }
-    const safeHTML = `<p>${escape(User.content.text)}</p>`;
-    let $tweetElem = $("<article>").addClass("tweet").html(
+    const safeHTML = `<p>${escape(tweet.content.text)}</p>`;
+    let $tweetElem ="";
+    if(tweet.IsLike===0 || tweet.IsLike===undefined){
+      $tweetElem = $("<article>").addClass("tweet").html(
+        `
+        <header class="header">
+          <img src=${logo}>
+          <name>${tweet.user.name}</name>
+          <handel>${tweet.user.handle}</handel>
+        </header>
+        <hr>
+        <h4>
+          ${safeHTML}
+        </h4>
+        <hr>
+        <footer>
+          <div>
+            <h5>
+              ${postTime}
+              <span class="icon" data-id=${tweet._id} >
+                <button><i class="fas fa-flag"></i></button>
+                <button><i class="fas fa-retweet"></i></button>
+                <button class="like" data-id="0"><i class="far fa-heart"></i></button>
+              </span>
+            </h5>
+          </div>
+        </footer>
+        `
+      )
     
-      `
-      <header>
-        <img src=${logo}>
-        <name>${User.user.name}</name>
-        <handel>${User.user.handle}</handel>
-      </header>
-      <hr>
-      <h4>
-        ${safeHTML}
-      </h4>
-      <hr>
-      <footer>
-        <div>
-          <h5>
-            ${postTime}
-            <span class = "icon">
-              <i class="fas fa-flag"></i>
-              <i class="fas fa-retweet"></i>
-              <i class="fas fa-heart"></i>
-            </span>
-          </h5>
-        </div>
-      </footer>
-      `
-    )
+    }
+    else{
+      $tweetElem = $("<article>").addClass("tweet").html(
+    
+        `
+        <header class="header">
+          <img src=${logo}>
+          <name>${tweet.user.name}</name>
+          <handel>${tweet.user.handle}</handel>
+        </header>
+        <hr>
+        <h4>
+          ${safeHTML}
+        </h4>
+        <hr>
+        <footer>
+          <div>
+            <h5>
+              ${postTime}
+              <span class="icon" data-id=${tweet._id} >
+                <button><i class="fas fa-flag"></i></button>
+                <button><i class="fas fa-retweet"></i></button>
+                <button class="like" data-id="1"><i class="fas fa-heart"></i></button>
+              </span>
+            </h5>
+          </div>
+        </footer>
+        `
+      )
+    }
     
     return $tweetElem;
   }
