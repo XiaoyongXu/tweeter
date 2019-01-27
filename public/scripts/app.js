@@ -97,6 +97,35 @@ $(()=>{
     $("textarea").focus();
   });
 
+  //deal with the hint when error happen
+  $('#new').submit(function(){
+    event.preventDefault();
+    const serialized = $(this).serialize();
+    const lengthOfText = $('textarea').val().length;
+    if (lengthOfText === 0 ){
+      $('#err').empty();
+      $('#err').text("There is nothing entered")
+      return false;
+    }else if (lengthOfText > 140){
+      $('#err').empty();
+      $('#err').text("There is too many words entered")
+      return false;
+    }
+
+    $('#err').empty();
+    $.ajax({
+      method: "POST",
+      url:"/tweets",
+      data: serialized,
+    }).done(function(){
+
+      loadTweets();
+    });
+
+    $('#new').get(0).reset();
+    $("#counter").text("140");
+  });
+
   //deal with the like button
   $("#tweets-container").on('click','.like',function(){
     const curTweetID = $(this).parent().attr('data-id');
